@@ -44,7 +44,15 @@ control:
     spring.datasource.url: ${flowable_control_jdbc}
 
 elasticsearch:
-  enabled: ${es_enabled}
+  enabled: false
+
+%{ if es_enabled }
+flowable:
+  indexing:
+    enabled: true
+    elasticsearch:
+      rest-uris: ${es_rest_uris}
+%{ endif }
 
 postgres:
   enabled: false
