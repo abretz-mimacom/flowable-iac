@@ -74,6 +74,12 @@ variable "elasticsearch_chart_version" {
   default     = "7.17.3"
 }
 
+variable "elasticsearch_heap_size" {
+  description = "Elasticsearch Java heap size (e.g., '2g'). Should be approximately half of memory limit."
+  type        = string
+  default     = "2g"
+}
+
 variable "kibana_replicas" {
   description = "Number of Kibana replicas"
   type        = number

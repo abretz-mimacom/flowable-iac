@@ -212,24 +212,24 @@ To deploy (or update) the `dev` environment execute the following commands;
 Terragrunt with pull the Flowable Terraform modules from the repository and determine required execution order based on the internal dependencies.
 
 ```
-> INFO[0000] The stack at /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev will be processed in the following order for command apply:
+> INFO[0000] The stack at <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev will be processed in the following order for command apply:
 Group 1
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/resource-group
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/resource-group
 
 Group 2
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/aks-cluster
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/postgres-flexible-server
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/aks-cluster
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/postgres-flexible-server
 
 Group 3
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/ingress-nginx
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/k8s-config
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/elk
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/ingress-nginx
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/k8s-config
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/elk
 
 Group 4
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/app/postgres-flexible-databases
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/app/postgres-flexible-databases
 
 Group 5
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/app/flowable-app
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/app/flowable-app
  
 Are you sure you want to run 'terragrunt apply' in each folder of the stack described above? (y/n) 
 ```

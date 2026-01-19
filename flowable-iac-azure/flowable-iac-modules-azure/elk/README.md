@@ -1,6 +1,6 @@
 # ELK Stack Terraform Module for Azure Kubernetes
 
-This Terraform module provisions the ELK (Elasticsearch, Logstash, Kibana) stack on Azure Kubernetes Service (AKS) using official Elastic Helm charts.
+This Terraform module provisions Elasticsearch and Kibana on Azure Kubernetes Service (AKS) using official Elastic Helm charts.
 
 ## Overview
 
@@ -46,6 +46,8 @@ module "elk" {
 | cluster_name | The name of the AKS cluster | string | - | yes |
 | cluster_resource_group_name | The resource group name of the AKS cluster | string | - | yes |
 | release_namespace | Kubernetes namespace for ELK stack | string | "elastic-system" | no |
+| elasticsearch_release_name | Helm release name for Elasticsearch | string | "elasticsearch" | no |
+| kibana_release_name | Helm release name for Kibana | string | "kibana" | no |
 | elasticsearch_replicas | Number of Elasticsearch replicas | number | 2 | no |
 | elasticsearch_storage_class | Storage class for Elasticsearch PVs | string | "default" | no |
 | elasticsearch_storage_size | Size of PV for each Elasticsearch node | string | "30Gi" | no |
@@ -53,7 +55,11 @@ module "elk" {
 | elasticsearch_resources_requests_memory | Memory request for Elasticsearch pods | string | "2Gi" | no |
 | elasticsearch_resources_limits_cpu | CPU limit for Elasticsearch pods | string | "2000m" | no |
 | elasticsearch_resources_limits_memory | Memory limit for Elasticsearch pods | string | "4Gi" | no |
+| elasticsearch_chart_version | Version of the Elasticsearch Helm chart | string | "7.17.3" | no |
+| elasticsearch_heap_size | Elasticsearch Java heap size (e.g., '2g') | string | "2g" | no |
 | kibana_replicas | Number of Kibana replicas | number | 1 | no |
+| kibana_chart_version | Version of the Kibana Helm chart | string | "7.17.3" | no |
+| create_namespace | Whether to create the namespace | bool | true | no |
 
 ## Outputs
 

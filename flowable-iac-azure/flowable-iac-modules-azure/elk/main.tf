@@ -42,8 +42,8 @@ resource "helm_release" "elasticsearch" {
     yamlencode({
       replicas = var.elasticsearch_replicas
 
-      # Minimize resource usage
-      esJavaOpts = "-Xmx2g -Xms2g"
+      # Configure Java heap size - should be approximately half of memory limit
+      esJavaOpts = "-Xmx${var.elasticsearch_heap_size} -Xms${var.elasticsearch_heap_size}"
 
       resources = {
         requests = {

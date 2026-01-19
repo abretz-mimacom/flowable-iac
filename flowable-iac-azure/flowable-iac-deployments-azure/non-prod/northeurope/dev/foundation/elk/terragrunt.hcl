@@ -35,6 +35,7 @@ inputs = {
   elasticsearch_resources_requests_memory = "1Gi"
   elasticsearch_resources_limits_cpu      = "1000m"
   elasticsearch_resources_limits_memory   = "2Gi"
+  elasticsearch_heap_size                 = "1g"  # Half of memory limit
   
   kibana_replicas = 1
 }
