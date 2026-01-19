@@ -1,0 +1,50 @@
+flowable:
+  envSecrets:
+    - name: SPRING_DATASOURCE_USERNAME
+      secretName: flowable-db-creds
+      secretKey: flowable-db-username
+    - name: SPRING_DATASOURCE_PASSWORD
+      secretName: flowable-db-creds
+      secretKey: flowable-db-password
+
+ingress:
+  enabled: true
+  mappingType: path
+  tls: true
+  ingressClass: nginx
+  hostOverride: ${ingress_domain}
+
+work:
+  enabled: ${flowable_work_enabled}
+  replicas: 1
+  strategy: 
+    type: Recreate
+  contextPath: /work
+  envVariables:
+    spring.datasource.url: ${flowable_work_jdbc}
+
+engage:
+  enabled: ${flowable_engage_enabled}
+  envVariables:
+    spring.datasource.url: ${flowable_engage_jdbc}
+
+designNew:
+  enabled: ${flowable_design_enabled}
+  strategy: 
+    type: Recreate
+  replicas: 1
+  contextPath: /design
+  envVariables:
+    spring.datasource.url: ${flowable_design_jdbc}
+
+control:
+  enabled: ${flowable_control_enabled}
+  replicas: 1
+  envVariables:
+    spring.datasource.url: ${flowable_control_jdbc}
+
+elasticsearch:
+  enabled: ${es_enabled}
+
+postgres:
+  enabled: false

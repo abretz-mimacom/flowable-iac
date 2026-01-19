@@ -1,0 +1,66 @@
+flowable:
+  envSecrets:
+  - name: SPRING_DATASOURCE_USERNAME
+    secretName: flowable-db-creds
+    secretKey: flowable-db-username
+  - name: SPRING_DATASOURCE_PASSWORD
+    secretName: flowable-db-creds
+    secretKey: flowable-db-password
+
+ingress:
+  enabled: true
+  mappingType: path
+  tls: true
+  ingressClass: nginx
+  hostOverride: ${ingress_domain}
+
+work:
+  javaOpts: "-XX:+UseG1GC -XX:+UseStringDeduplication -Xss256k -Xms4G -Xmx6G -Duser.timezone=Europe/Amsterdam"
+  enabled: ${flowable_work_enabled}
+  replicas: 2
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 0
+  contextPath: /work
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "8Gi"
+    limits:
+      cpu: null
+      memory: "8Gi"
+  storage:
+    accessModes: ReadWriteMany
+    storageClass: azurefile-csi-premium
+  envVariables:
+    spring.datasource.url: ${flowable_work_jdbc}
+    flowable.async-executor.thread.queue-capacity: 256
+    flowable.async-executor.thread.core-pool-size: 32
+    flowable.async-executor.thread.max-pool-size: 32
+    flowable.async-history.thread-pool.core-pool-size: 32
+    flowable.async-history.thread-pool.max-pool-size: 32
+    flowable.async-history.thread-pool.queue-capacity: 256
+
+engage:
+  enabled: ${flowable_engage_enabled}
+  envVariables:
+    spring.datasource.url: ${flowable_engage_jdbc}
+
+designNew:
+  enabled: ${flowable_design_enabled}
+
+control:
+  enabled: ${flowable_control_enabled}
+  contextPath: /control
+  replicas: 1
+  envVariables:
+    spring.datasource.url: ${flowable_control_jdbc}
+
+elasticsearch:
+  enabled: ${es_enabled}
+  replicas: 2
+  sysctlInitContainer:
+    enabled: true
+
+postgres:
+  enabled: false
