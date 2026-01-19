@@ -58,6 +58,10 @@ module "elk" {
 | elasticsearch_chart_version | Version of the Elasticsearch Helm chart | string | "7.17.3" | no |
 | elasticsearch_heap_size | Elasticsearch Java heap size (e.g., '2g') | string | "2g" | no |
 | kibana_replicas | Number of Kibana replicas | number | 1 | no |
+| kibana_resources_requests_cpu | CPU request for Kibana pods | string | "500m" | no |
+| kibana_resources_requests_memory | Memory request for Kibana pods | string | "1Gi" | no |
+| kibana_resources_limits_cpu | CPU limit for Kibana pods | string | "1000m" | no |
+| kibana_resources_limits_memory | Memory limit for Kibana pods | string | "2Gi" | no |
 | kibana_chart_version | Version of the Kibana Helm chart | string | "7.17.3" | no |
 | create_namespace | Whether to create the namespace | bool | true | no |
 

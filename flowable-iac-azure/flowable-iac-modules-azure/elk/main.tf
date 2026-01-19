@@ -100,12 +100,12 @@ resource "helm_release" "kibana" {
 
       resources = {
         requests = {
-          cpu    = "500m"
-          memory = "1Gi"
+          cpu    = var.kibana_resources_requests_cpu
+          memory = var.kibana_resources_requests_memory
         }
         limits = {
-          cpu    = "1000m"
-          memory = "2Gi"
+          cpu    = var.kibana_resources_limits_cpu
+          memory = var.kibana_resources_limits_memory
         }
       }
     })

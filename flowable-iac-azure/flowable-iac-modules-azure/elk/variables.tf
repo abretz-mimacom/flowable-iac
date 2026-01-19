@@ -86,6 +86,30 @@ variable "kibana_replicas" {
   default     = 1
 }
 
+variable "kibana_resources_requests_cpu" {
+  description = "CPU request for Kibana pods"
+  type        = string
+  default     = "500m"
+}
+
+variable "kibana_resources_requests_memory" {
+  description = "Memory request for Kibana pods"
+  type        = string
+  default     = "1Gi"
+}
+
+variable "kibana_resources_limits_cpu" {
+  description = "CPU limit for Kibana pods"
+  type        = string
+  default     = "1000m"
+}
+
+variable "kibana_resources_limits_memory" {
+  description = "Memory limit for Kibana pods"
+  type        = string
+  default     = "2Gi"
+}
+
 variable "kibana_chart_version" {
   description = "Version of the Kibana Helm chart"
   type        = string
