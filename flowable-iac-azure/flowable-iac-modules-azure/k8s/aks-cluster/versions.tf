@@ -1,0 +1,22 @@
+terraform {
+  required_version = ">= 1.0.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.71.0"
+    }
+    azurecaf = {
+      source  = "aztfmod/azurecaf"
+      version = "~> 1.2.23"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.2.3"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.23.0"
+    }
+  }
+}
