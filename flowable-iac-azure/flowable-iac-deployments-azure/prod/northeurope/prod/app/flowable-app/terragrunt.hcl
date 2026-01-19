@@ -34,11 +34,16 @@ locals {
 }
 
 dependencies {
-  paths = ["../../foundation/k8s/ingress-nginx", "../postgres-flexible-databases"]
+  paths = ["../../foundation/k8s/ingress-nginx", "../postgres-flexible-databases", "../../foundation/elk"]
 }
 
 dependency "k8s" {
   config_path = "../../foundation/k8s/aks-cluster"
+}
+
+dependency "elk" {
+  config_path = "../../foundation/elk"
+  skip_outputs = !local.es_enabled
 }
 
 inputs = {
@@ -53,6 +58,7 @@ inputs = {
     ingress_domain                      = "${local.workload}-${local.env_suffix}.${local.region}.cloudapp.azure.com"
     flowable_indexing_index-name-prefix = "${local.workload}-",
     es_enabled                          = local.es_enabled,
+    es_rest_uris                        = local.es_enabled ? "http://${dependency.elk.outputs.elasticsearch_endpoint}" : "",
     flowable_control_enabled            = local.flowable_control_enabled,
     flowable_design_enabled             = local.flowable_design_enabled,
     flowable_work_enabled               = local.flowable_work_enabled,

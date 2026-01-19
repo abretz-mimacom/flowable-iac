@@ -212,23 +212,24 @@ To deploy (or update) the `dev` environment execute the following commands;
 Terragrunt with pull the Flowable Terraform modules from the repository and determine required execution order based on the internal dependencies.
 
 ```
-> INFO[0000] The stack at /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev will be processed in the following order for command apply:
+> INFO[0000] The stack at <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev will be processed in the following order for command apply:
 Group 1
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/resource-group
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/resource-group
 
 Group 2
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/aks-cluster
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/aks-cluster
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/postgres-flexible-server
 
 Group 3
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/ingress-nginx
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/foundation/k8s/k8s-config
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/ingress-nginx
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/k8s/k8s-config
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/foundation/elk
 
 Group 4
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/app/elasticsearch
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/app/postgresql
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/app/postgres-flexible-databases
 
 Group 5
-- Module /Users/yvoswillens/Developer/projects/flowable-iac/flowable-infrastructure-deployments/azure/non-prod/northeurope/dev/app/flowable-app
+- Module <git_checkout>/flowable-iac-azure/flowable-iac-deployments-azure/non-prod/northeurope/dev/app/flowable-app
  
 Are you sure you want to run 'terragrunt apply' in each folder of the stack described above? (y/n) 
 ```
@@ -242,6 +243,38 @@ In the previous example a complete environment was deployed in one go. In some c
 Therefore it is important that it is only possible to execute a `terraform plan` on components that have no dependencies or on components that have been 'applied' (/have state) before.
 
 Another import aspect to take into account is that when making chances to `foundation` components; for example changing the name of the resource group; that would result in re-creating that component will have affect on other components.
+
+#### Infrastructure Components
+
+##### ELK Stack (Elasticsearch, Kibana)
+
+The infrastructure includes an optional ELK stack module that provisions Elasticsearch and Kibana for centralized logging and search functionality. This replaces the embedded Bitnami Elasticsearch images previously used in the Flowable Helm chart.
+
+**Key Features:**
+- Official Elastic Helm charts instead of Bitnami images
+- Persistent storage with configurable storage class and size
+- Configurable resource limits for different environments
+- Production-ready configuration with sysctl init container
+- Isolated namespace deployment
+
+**Configuration:**
+The ELK stack is deployed as part of the foundation infrastructure and can be enabled/disabled via the `es_enabled` flag in the `app.hcl` file:
+
+```hcl
+# In <env>/app/app.hcl
+locals {
+  es_enabled = true  # Set to false to disable Elasticsearch
+}
+```
+
+When enabled:
+- Dev environments use minimal resources (1 replica, 10Gi storage)
+- Prod environments use high-availability configuration (3 replicas, 50Gi storage)
+- The Flowable application automatically connects to the external Elasticsearch instance
+
+**Module Location:** `flowable-iac-modules-azure/elk/`
+
+For detailed module documentation, see the [ELK module README](../../flowable-iac-modules-azure/elk/README.md).
 
 ##### Review and deploy Flowable App
 
